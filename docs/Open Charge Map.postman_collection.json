@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "a0853f4d-2c69-4001-8196-86877c11ba70",
+		"name": "Open Charge Map",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14869995"
+	},
+	"item": [
+		{
+			"name": "Charge Stations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "key",
+						"value": "8ffe84cb-a61e-40eb-8d9c-d80b5f54d0c1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.openchargemap.io/v3/poi/?output=json&countrycode=TR&maxresults=10&compact=true&verbose=false",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openchargemap",
+						"io"
+					],
+					"path": [
+						"v3",
+						"poi",
+						""
+					],
+					"query": [
+						{
+							"key": "output",
+							"value": "json"
+						},
+						{
+							"key": "countrycode",
+							"value": "TR"
+						},
+						{
+							"key": "maxresults",
+							"value": "10"
+						},
+						{
+							"key": "compact",
+							"value": "true"
+						},
+						{
+							"key": "verbose",
+							"value": "false"
+						},
+						{
+							"key": "key",
+							"value": "8ffe84cb-a61e-40eb-8d9c-d80b5f54d0c1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Station : $id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.openchargemap.io/v3/poi/?output=json&countrycode=TR&maxresults=10&compact=true&verbose=false&id=211219",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openchargemap",
+						"io"
+					],
+					"path": [
+						"v3",
+						"poi",
+						""
+					],
+					"query": [
+						{
+							"key": "output",
+							"value": "json"
+						},
+						{
+							"key": "countrycode",
+							"value": "TR"
+						},
+						{
+							"key": "maxresults",
+							"value": "10"
+						},
+						{
+							"key": "compact",
+							"value": "true"
+						},
+						{
+							"key": "verbose",
+							"value": "false"
+						},
+						{
+							"key": "id",
+							"value": "211219"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Stations (more detail)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.openchargemap.io/v3/poi/?output=json&countrycode=TR&maxresults=10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openchargemap",
+						"io"
+					],
+					"path": [
+						"v3",
+						"poi",
+						""
+					],
+					"query": [
+						{
+							"key": "output",
+							"value": "json"
+						},
+						{
+							"key": "countrycode",
+							"value": "TR"
+						},
+						{
+							"key": "maxresults",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Station [XML]",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Stations : $polygon",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.openchargemap.io/v3/poi/?output=json&maxresults=10&compact=true&verbose=false&polygon=ezayF{vgoDiqXkl@dtBgfh@`mTjvF",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openchargemap",
+						"io"
+					],
+					"path": [
+						"v3",
+						"poi",
+						""
+					],
+					"query": [
+						{
+							"key": "output",
+							"value": "json"
+						},
+						{
+							"key": "countrycode",
+							"value": "TR",
+							"disabled": true
+						},
+						{
+							"key": "maxresults",
+							"value": "10"
+						},
+						{
+							"key": "compact",
+							"value": "true"
+						},
+						{
+							"key": "verbose",
+							"value": "false"
+						},
+						{
+							"key": "id",
+							"value": "211219",
+							"disabled": true
+						},
+						{
+							"key": "polygon",
+							"value": "ezayF{vgoDiqXkl@dtBgfh@`mTjvF",
+							"description": "https://developers.google.com/maps/documentation/utilities/polylineutility\n"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "8ffe84cb-a61e-40eb-8d9c-d80b5f54d0c1",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
