@@ -1,11 +1,14 @@
-package com.example.hmsmapkitapp
+package com.example.hmsmapkitapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
+import com.example.hmsmapkitapp.MainViewModelFactory
+import com.example.hmsmapkitapp.data.repository.Repository
+import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 import com.example.hmsmapkitapp.databinding.FragmentSearchBinding
 
 /**
@@ -19,12 +22,22 @@ class SearchFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
+            MainViewModel::
+            class.java
+        )
+
         return binding.root
 
     }

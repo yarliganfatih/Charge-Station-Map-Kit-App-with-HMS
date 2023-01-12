@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.hmsmapkitapp.FirstFragment"
+        android:name="com.example.hmsmapkitapp.fragments.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -17,12 +17,15 @@
         <action
             android:id="@+id/action_FirstFragment_to_SearchFragment"
             app:destination="@id/SearchFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.hmsmapkitapp.SecondFragment"
+        android:name="com.example.hmsmapkitapp.fragments.MapFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_map">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
@@ -30,12 +33,18 @@
     </fragment>
     <fragment
         android:id="@+id/SearchFragment"
-        android:name="com.example.hmsmapkitapp.SearchFragment"
+        android:name="com.example.hmsmapkitapp.fragments.SearchFragment"
         android:label="Search Charging Stations"
         tools:layout="@layout/fragment_search">
 
         <action
             android:id="@+id/action_SearchFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/DetailFragment"
+        android:name="com.example.hmsmapkitapp.fragments.DetailFragment"
+        android:label="Detail Fragment"
+        tools:layout="@layout/fragment_detail">
     </fragment>
 </navigation>

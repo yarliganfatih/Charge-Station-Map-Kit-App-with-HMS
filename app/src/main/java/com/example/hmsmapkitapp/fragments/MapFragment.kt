@@ -1,20 +1,26 @@
-package com.example.hmsmapkitapp
+package com.example.hmsmapkitapp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.hmsmapkitapp.databinding.FragmentSecondBinding
+import androidx.lifecycle.ViewModelProvider
+import com.example.hmsmapkitapp.MainViewModelFactory
+import com.example.hmsmapkitapp.databinding.FragmentMapBinding
 import com.huawei.hms.maps.*
 import com.huawei.hms.maps.model.*
-import androidx.navigation.fragment.findNavController
+import com.example.hmsmapkitapp.R
+import com.example.hmsmapkitapp.data.repository.Repository
+import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 
 
-class SecondFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var huaweiMap: HuaweiMap
     private lateinit var marker: Marker
@@ -26,7 +32,15 @@ class SecondFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
+
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
+            MainViewModel::
+            class.java
+        )
+
         return binding.root
 
     }
@@ -41,7 +55,7 @@ class SecondFragment : Fragment(), OnMapReadyCallback {
 
         binding.huaweiMapView.apply {
             onCreate(mapViewBundle)
-            getMapAsync(this@SecondFragment)
+            getMapAsync(this@MapFragment)
         }
     }
 
