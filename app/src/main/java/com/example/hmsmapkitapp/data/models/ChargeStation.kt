@@ -2,6 +2,7 @@ package com.example.hmsmapkitapp.data.models
 
 data class ChargeStation(
     val ID: Int,
+    val UsageTypeID: Int,
     val AddressInfo: AddressInfo
 )
 

@@ -48,6 +48,14 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bundle = Bundle()
+        binding.buttonSearch.setOnClickListener {
+            bundle.putString("countrycode", "TR")
+            bundle.putInt("distance", 1)
+            bundle.putFloat("latitude", 41.042165.toFloat())
+            bundle.putFloat("longitude", 29.0092591.toFloat())
+            findNavController().navigate(R.id.action_SearchFragment_to_MapFragment, bundle)
+        }
     }
 
     override fun onDestroyView() {

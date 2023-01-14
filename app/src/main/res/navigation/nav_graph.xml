@@ -42,8 +42,21 @@
         tools:layout="@layout/fragment_search">
 
         <action
-            android:id="@+id/action_SearchFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_SearchFragment_to_MapFragment"
+            app:destination="@id/MapFragment">
+            <argument
+                android:name="countrycode"
+                app:argType="string" />
+            <argument
+                android:name="distance"
+                app:argType="integer" />
+            <argument
+                android:name="latitude"
+                app:argType="float" />
+            <argument
+                android:name="longitude"
+                app:argType="float" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/DetailFragment"

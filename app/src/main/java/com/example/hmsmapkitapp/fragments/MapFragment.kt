@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.hmsmapkitapp.MainViewModelFactory
 import com.example.hmsmapkitapp.databinding.FragmentMapBinding
 import com.huawei.hms.maps.*
 import com.huawei.hms.maps.model.*
 import com.example.hmsmapkitapp.R
+import com.example.hmsmapkitapp.data.models.ChargeStation
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
+import com.google.gson.Gson
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -41,6 +44,35 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             MainViewModel::
             class.java
         )
+        if(arguments!!.getFloat("latitude") != null){
+            val countrycode: String = arguments!!.getString("countrycode").toString()
+            val distance: Int = arguments!!.getInt("distance")
+            LATITUDE = arguments!!.getFloat("latitude").toFloat()
+            LONGITUDE = arguments!!.getFloat("longitude").toFloat()
+            Log.d("countrycode", " ${countrycode}")
+
+            viewModel.getChargeStations(countrycode, distance, LATITUDE, LONGITUDE)
+            viewModel.chargeStations.observe(requireActivity(), Observer { response ->
+                Log.d("Code", " ${response.code()}")
+                if (response.isSuccessful) {
+                    val body = response?.body()?.toString()
+                    val gson = Gson()
+
+                    try {
+                        val name2 = gson.fromJson(body, Array<ChargeStation>::class.java)
+                        chargeStations = name2
+                        //Updating value of name2
+                    }
+                    catch (e: Exception){
+                        print("Error roroorirorr")
+                        print(e)
+                    }
+                    //chargeStations = response.body()
+                } else {
+                    Log.d("Error", " ${response.errorBody()}")
+                }
+            })
+        }
 
         return binding.root
 
@@ -58,6 +90,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             onCreate(mapViewBundle)
             getMapAsync(this@MapFragment)
         }
+
     }
 
     override fun onDestroyView() {
@@ -70,17 +103,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         // Mapping
         huaweiMap = map
 
+        chargeStations?.forEach {
+            Log.d("xx", " ${it}")
+        }
         // Marker add
         marker = huaweiMap.addMarker(
             MarkerOptions()
                 .icon(BitmapDescriptorFactory.defaultMarker())
                 .title(getString(R.string.location_name))
-                .position(LatLng(LATITUDE, LONGITUDE))
+                .position(LatLng(LATITUDE.toDouble(), LONGITUDE.toDouble()))
 
         )
         // Camera position settings
         cameraPosition = CameraPosition.builder()
-            .target(LatLng(LATITUDE, LONGITUDE))
+            .target(LatLng(LATITUDE.toDouble(), LONGITUDE.toDouble()))
             .zoom(ZOOM)
             .bearing(BEARING)
             .tilt(TILT).build()
@@ -89,11 +125,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     companion object {
-        private const val MAP_BUNDLE_KEY = "MapBundleKey"
-        private const val LATITUDE: Double = 41.042165
-        private const val LONGITUDE: Double = 29.0092591
-        private const val ZOOM: Float = 15f
-        private const val BEARING: Float = 2.0f
-        private const val TILT: Float = 2.5f
+        private lateinit var chargeStations: Array<ChargeStation>
+        private val MAP_BUNDLE_KEY = "MapBundleKey"
+        private var LATITUDE: Float = 41.042165f
+        private var LONGITUDE: Float = 28.0092591f
+        private val ZOOM: Float = 15f
+        private val BEARING: Float = 2.0f
+        private val TILT: Float = 2.5f
     }
 }
