@@ -39,7 +39,13 @@ class DetailFragment : Fragment() {
             MainViewModel::
             class.java
         )
-        viewModel.getChargeStationById(211219)
+        val chargeStationId: Int
+        chargeStationId = if (arguments != null) {
+            arguments!!.getInt("chargeStationId")
+        } else {
+            1
+        }
+        viewModel.getChargeStationById(chargeStationId)
         viewModel.chargeStationById.observe(requireActivity(), Observer { response ->
             Log.d("Code", " ${response.code()}")
             if (response.isSuccessful) {

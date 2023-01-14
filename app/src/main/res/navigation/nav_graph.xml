@@ -12,23 +12,27 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FirstFragment_to_MapFragment"
+            app:destination="@id/MapFragment">
+        </action>
         <action
             android:id="@+id/action_FirstFragment_to_SearchFragment"
             app:destination="@id/SearchFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_DetailFragment"
-            app:destination="@id/DetailFragment" />
+            app:destination="@id/DetailFragment">
+            <argument
+                android:name="chargeStationId"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/MapFragment"
         android:name="com.example.hmsmapkitapp.fragments.MapFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/map_fragment_label"
         tools:layout="@layout/fragment_map">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_MapFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
     <fragment

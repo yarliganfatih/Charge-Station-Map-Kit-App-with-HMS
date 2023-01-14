@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.huawei.agconnect'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
