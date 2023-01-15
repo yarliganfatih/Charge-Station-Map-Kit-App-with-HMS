@@ -17,6 +17,7 @@ import com.example.hmsmapkitapp.data.models.ChargeStation
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 import com.google.gson.Gson
+import android.widget.Toast
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -37,43 +38,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View? {
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
-
-        val repository = Repository()
-        val viewModelFactory = MainViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(
-            MainViewModel::
-            class.java
-        )
-        if(arguments!!.getFloat("latitude") != null){
-            val countrycode: String = arguments!!.getString("countrycode").toString()
-            val distance: Int = arguments!!.getInt("distance")
-            LATITUDE = arguments!!.getFloat("latitude").toFloat()
-            LONGITUDE = arguments!!.getFloat("longitude").toFloat()
-            Log.d("countrycode", " ${countrycode}")
-
-            viewModel.getChargeStations(countrycode, distance, LATITUDE, LONGITUDE)
-            viewModel.chargeStations.observe(requireActivity(), Observer { response ->
-                Log.d("Code", " ${response.code()}")
-                if (response.isSuccessful) {
-                    val body = response?.body()?.toString()
-                    val gson = Gson()
-
-                    try {
-                        val name2 = gson.fromJson(body, Array<ChargeStation>::class.java)
-                        chargeStations = name2
-                        //Updating value of name2
-                    }
-                    catch (e: Exception){
-                        print("Error roroorirorr")
-                        print(e)
-                    }
-                    //chargeStations = response.body()
-                } else {
-                    Log.d("Error", " ${response.errorBody()}")
-                }
-            })
+        try {
+            var countrycode: String = arguments!!.getString("countrycode").toString()
+            if (arguments!!.getInt("distance") != 0) {
+                distance = arguments!!.getInt("distance")
+            }
+            if (countrycode.isEmpty()) {
+                LATITUDE = arguments!!.getDouble("latitude")
+                LONGITUDE = arguments!!.getDouble("longitude")
+            }
+            if (arguments!!.getString("chargeStations") != null) {
+                var chargeStationsARG: String = arguments!!.getString("chargeStations").toString()
+                val gson = Gson()
+                chargeStations = gson.fromJson(chargeStationsARG, Array<ChargeStation>::class.java)
+            }
+        }catch (e: Exception){
+            Log.d("Error", e.toString())
         }
-
         return binding.root
 
     }
@@ -103,20 +84,39 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         // Mapping
         huaweiMap = map
 
+        val stationIcon1 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation1)
+        val stationIcon2 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation2)
+        val stationIcon3 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation3)
+        val stationIcon4 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation4)
+        val stationIcon5 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation5)
+        val stationIcon6 = BitmapDescriptorFactory.fromResource(R.drawable.chargingstation6)
         chargeStations?.forEach {
-            Log.d("xx", " ${it}")
+            var stationIcon = stationIcon1
+            when (it.UsageTypeID) {
+                1 -> stationIcon = stationIcon1
+                2 -> stationIcon = stationIcon2
+                3 -> stationIcon = stationIcon3
+                4 -> stationIcon = stationIcon4
+                5 -> stationIcon = stationIcon5
+                6 -> stationIcon = stationIcon6
+            }
+            marker = huaweiMap.addMarker(
+                MarkerOptions()
+                    .icon(stationIcon)
+                    .title(it.AddressInfo.Title)
+                    .position(LatLng(it.AddressInfo.Latitude.toDouble(), it.AddressInfo.Longitude.toDouble()))
+            )
         }
         // Marker add
         marker = huaweiMap.addMarker(
             MarkerOptions()
                 .icon(BitmapDescriptorFactory.defaultMarker())
                 .title(getString(R.string.location_name))
-                .position(LatLng(LATITUDE.toDouble(), LONGITUDE.toDouble()))
-
+                .position(LatLng(LATITUDE, LONGITUDE))
         )
         // Camera position settings
         cameraPosition = CameraPosition.builder()
-            .target(LatLng(LATITUDE.toDouble(), LONGITUDE.toDouble()))
+            .target(LatLng(LATITUDE, LONGITUDE))
             .zoom(ZOOM)
             .bearing(BEARING)
             .tilt(TILT).build()
@@ -127,8 +127,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     companion object {
         private lateinit var chargeStations: Array<ChargeStation>
         private val MAP_BUNDLE_KEY = "MapBundleKey"
-        private var LATITUDE: Float = 41.042165f
-        private var LONGITUDE: Float = 28.0092591f
+        private var LATITUDE: Double = 41.042165.toDouble()
+        private var LONGITUDE: Double = 29.0092591.toDouble()
+        private var distance: Int = 10
         private val ZOOM: Float = 15f
         private val BEARING: Float = 2.0f
         private val TILT: Float = 2.5f

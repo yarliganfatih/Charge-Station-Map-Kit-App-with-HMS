@@ -13,6 +13,12 @@ import com.example.hmsmapkitapp.R
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 import com.example.hmsmapkitapp.databinding.FragmentSearchBinding
+import com.huawei.hmf.tasks.OnSuccessListener
+import com.huawei.hms.location.FusedLocationProviderClient
+import com.huawei.hms.location.LocationServices
+import android.widget.Toast
+import com.example.hmsmapkitapp.data.models.ChargeStation
+import com.google.gson.Gson
 import androidx.lifecycle.Observer
 
 /**
@@ -32,7 +38,8 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        mFusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(getContext())
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         val repository = Repository()
@@ -49,17 +56,82 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bundle = Bundle()
+
         binding.buttonSearch.setOnClickListener {
-            bundle.putString("countrycode", "TR")
-            bundle.putInt("distance", 1)
-            bundle.putFloat("latitude", 41.042165.toFloat())
-            bundle.putFloat("longitude", 29.0092591.toFloat())
-            findNavController().navigate(R.id.action_SearchFragment_to_MapFragment, bundle)
+            var countrycode: String = binding.spinner1.selectedItem.toString()
+            var distance: Int = 10
+            try {
+                if(binding.editTextDistance.text.isNotEmpty()){
+                    distance = binding.editTextDistance.text.toString().toInt()
+                }
+                if(binding.textView7.text.isNotEmpty()){
+                    countrycode = "" // to focus on the country independent location
+                    bundle.putDouble("latitude", binding.textView7.text.toString().toDouble())
+                }
+                if(binding.textView8.text.isNotEmpty()){
+                    countrycode = "" // to focus on the country independent location
+                    bundle.putDouble("longitude", binding.textView8.text.toString().toDouble())
+                }
+                bundle.putString("countrycode", countrycode)
+                bundle.putInt("distance", distance)
+            }catch (e: Exception){
+                Log.d("Error", e.toString())
+            }
+            viewModel.getChargeStations(
+                countrycode,
+                distance,
+                binding.textView7.text.toString().toFloat(),
+                binding.textView8.text.toString().toFloat()
+            )
+            viewModel.chargeStations.observe(requireActivity(), Observer { response ->
+                Log.d("Code", " ${response.code()}")
+                if (response.isSuccessful) {
+                    val gson = Gson()
+                    val body = gson.toJson(response?.body())
+                    bundle.putString("chargeStations", body)
+                } else {
+                    Log.d("Error", " ${response.errorBody()}")
+                }
+                findNavController().navigate(R.id.action_SearchFragment_to_MapFragment, bundle)
+            })
+
+        }
+        binding.textView9.setOnClickListener {
+            binding.textView7.setText(" ")
+            binding.textView8.setText(" ")
+        }
+        binding.imageView.setOnClickListener {
+            getLocationData()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+
+    private fun getLocationData() {
+        try {
+            val lastLocation =
+                mFusedLocationProviderClient.lastLocation
+            lastLocation.addOnSuccessListener(OnSuccessListener { location ->
+                if (location == null) {
+                    Toast.makeText(context,"Location data is null", Toast.LENGTH_SHORT).show()
+                    return@OnSuccessListener
+                }
+                binding.textView7.setText(location.latitude.toString())
+                binding.textView8.setText(location.longitude.toString())
+                Toast.makeText(context,"Location data received successfully", Toast.LENGTH_SHORT).show()
+                return@OnSuccessListener
+            }).addOnFailureListener { e: Exception ->
+                Log.i("Location", "getLastLocation onFailure:" + e.message)
+                Toast.makeText(context,"Location data could not be retrieved", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.i("Location", "getLastLocation exception:${e.message}")
+            Toast.makeText(context,"Location data could not be retrieved", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -11,4 +11,10 @@
     <string name="hello_map_fragment">Hello map fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="spinner_items">
+        <item>Country Code</item>
+        <item>TR</item>
+        <item>US</item>
+        <item>UK</item>
+    </string-array>
 </resources>
