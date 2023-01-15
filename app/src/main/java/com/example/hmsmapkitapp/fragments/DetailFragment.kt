@@ -13,6 +13,7 @@ import com.example.hmsmapkitapp.data.models.ChargeStation
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 import com.example.hmsmapkitapp.databinding.FragmentDetailBinding
+import android.widget.Toast
 
 
 /**
@@ -78,7 +79,9 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.imageView2.setOnClickListener {
+            Toast.makeText(context,"Error : implementation 'com.huawei.hms:ml-computer-voice-tts:3.3.0.305'", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

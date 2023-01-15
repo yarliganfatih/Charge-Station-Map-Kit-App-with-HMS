@@ -90,6 +90,7 @@ class SearchFragment : Fragment() {
                     val body = gson.toJson(response?.body())
                     bundle.putString("chargeStations", body)
                 } else {
+                    Toast.makeText(context,"${response.errorBody()}", Toast.LENGTH_SHORT).show()
                     Log.d("Error", " ${response.errorBody()}")
                 }
                 findNavController().navigate(R.id.action_SearchFragment_to_MapFragment, bundle)

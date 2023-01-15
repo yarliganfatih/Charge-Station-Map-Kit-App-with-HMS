@@ -24,7 +24,7 @@ data class AddressInfo(
 data class Connection(
     val ID: Int,
     val PowerKW: Double,
-    val ConnectionType: ConnectionType
+    val ConnectionType: ConnectionType,
     val Quantity: Int,
 )
 

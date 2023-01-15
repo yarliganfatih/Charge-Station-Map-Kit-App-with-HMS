@@ -13,6 +13,7 @@ import com.example.hmsmapkitapp.databinding.FragmentFirstBinding
 import com.example.hmsmapkitapp.MainViewModelFactory
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
+import android.widget.Toast
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -47,15 +48,9 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bundle = Bundle()
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_MapFragment, bundle)
-        }
-        binding.buttonSearch.setOnClickListener {
+        binding.hwidButton.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SearchFragment, bundle)
-        }
-        binding.buttonDetail.setOnClickListener {
-            bundle.putInt("chargeStationId", 165210)
-            findNavController().navigate(R.id.action_FirstFragment_to_DetailFragment, bundle)
+            Toast.makeText(context,"Authentication step skipped", Toast.LENGTH_SHORT).show()
         }
     }
 

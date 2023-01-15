@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.hmsmapkitapp.fragments.FirstFragment"
-        android:label="@string/first_fragment_label"
+        android:label="1805114"
         tools:layout="@layout/fragment_first">
 
         <action
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/MapFragment"
         android:name="com.example.hmsmapkitapp.fragments.MapFragment"
-        android:label="@string/map_fragment_label"
+        android:label="Charging Stations"
         tools:layout="@layout/fragment_map">
         <action
             android:id="@+id/action_MapFragment_to_DetailFragment"
@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.example.hmsmapkitapp.fragments.DetailFragment"
-        android:label="Detail Fragment"
+        android:label="Charging Station Detail"
         tools:layout="@layout/fragment_detail">
     </fragment>
 </navigation>

@@ -24,6 +24,7 @@ interface OpenChargeMapService {
         @Query("distance") distance: Int = 1,
         @Query("latitude") latitude: Float = 41.042165.toFloat(),
         @Query("longitude") longitude: Float = 29.0092591.toFloat(),
+        @Query("distanceunit") distanceunit: String = "km",
         @Query("maxresults") maxresults: Int = 10,
         //@Query("polygon") polygon: String = "",
         @Query("output") output: String = "json",

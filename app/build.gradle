@@ -61,6 +61,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'com.huawei.hms:hwid:5.0.1.301'
     implementation 'com.huawei.hms:maps:6.4.1.300'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
@@ -80,4 +81,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.huawei.hms:hmscoreinstaller:6.6.0.300'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:2.1.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.1.0.301'
+    implementation 'com.huawei.agconnect:agconnect-core:1.6.0.300'
+    implementation 'androidx.databinding:databinding-runtime:7.1.1'
 }
