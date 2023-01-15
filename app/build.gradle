@@ -86,4 +86,6 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.1.0.301'
     implementation 'com.huawei.agconnect:agconnect-core:1.6.0.300'
     implementation 'androidx.databinding:databinding-runtime:7.1.1'
+    // ML Kit - Text to Speech (faulty)
+    //implementation 'com.huawei.hms:ml-computer-voice-tts:3.3.0.305'
 }

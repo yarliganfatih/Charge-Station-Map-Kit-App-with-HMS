@@ -80,6 +80,17 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imageView2.setOnClickListener {
+            /*
+            // Initialize the ML Kit SDK.
+            AGConnectInstance.getInstance().init(this);
+            // Obtain the TTS service.
+            tts = SpeechSynthesizer.getInstance();
+            tts.setContext(this);
+            tts.setAppId("your app id");
+            // Start the TTS session.
+            tts.start();
+            tts.speak(chargeStations.toString());
+             */
             Toast.makeText(context,"Error : implementation 'com.huawei.hms:ml-computer-voice-tts:3.3.0.305'", Toast.LENGTH_SHORT).show()
         }
     }
