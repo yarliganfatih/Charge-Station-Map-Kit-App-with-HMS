@@ -2,16 +2,18 @@ package com.example.hmsmapkitapp.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import com.example.hmsmapkitapp.databinding.FragmentDetailBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.hmsmapkitapp.MainViewModelFactory
+import com.example.hmsmapkitapp.data.models.ChargeStation
 import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
+import com.example.hmsmapkitapp.databinding.FragmentDetailBinding
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -19,7 +21,7 @@ import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
-
+    private lateinit var chargeStations: Array<ChargeStation>
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -50,12 +52,28 @@ class DetailFragment : Fragment() {
             Log.d("Code", " ${response.code()}")
             if (response.isSuccessful) {
                 Log.d("Body", " ${response.body()}")
+                response.body()?.forEach {
+                    updatePageDatas(it)
+                }
             } else {
                 Log.d("Error", " ${response.errorBody()}")
             }
         })
 
         return binding.root
+    }
+
+    fun updatePageDatas(data: ChargeStation){
+        binding.bodyTextView7.setText("WebSite: ${data.AddressInfo.RelatedURL}")
+        binding.bodyTextView6.setText("E-mail: ${data.AddressInfo.ContactEmail}")
+        binding.bodyTextView5.setText("Phone: ${data.AddressInfo.ContactTelephone1}")
+        binding.bodyTextView4.setText("Location: ${data.AddressInfo.Latitude}, ${data.AddressInfo.Longitude}")
+        binding.bodyTextView3.setText("Address: ${data.AddressInfo.AddressLine1}")
+        var connectionsData : String = ""
+        data.Connections.forEach {
+            connectionsData += "${it.Quantity}x #${it.ID} : ${it.PowerKW}kW \n"
+        }
+        binding.bodyTextView8.setText(connectionsData)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

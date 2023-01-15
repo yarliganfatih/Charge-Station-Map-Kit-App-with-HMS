@@ -32,8 +32,9 @@
         android:label="@string/map_fragment_label"
         tools:layout="@layout/fragment_map">
         <action
-            android:id="@+id/action_MapFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_MapFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/SearchFragment"

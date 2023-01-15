@@ -18,6 +18,7 @@ import com.example.hmsmapkitapp.data.repository.Repository
 import com.example.hmsmapkitapp.data.viewmodel.MainViewModel
 import com.google.gson.Gson
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -38,6 +39,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View? {
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
+            MainViewModel::
+            class.java
+        )
         try {
             var countrycode: String = arguments!!.getString("countrycode").toString()
             if (arguments!!.getInt("distance") != 0) {
@@ -104,8 +111,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 MarkerOptions()
                     .icon(stationIcon)
                     .title(it.AddressInfo.Title)
+                    .snippet(it.ID.toString())
                     .position(LatLng(it.AddressInfo.Latitude.toDouble(), it.AddressInfo.Longitude.toDouble()))
             )
+        }
+        huaweiMap.setOnMarkerClickListener { marker ->
+            getStationDetail(marker.snippet.toInt())
+            false
         }
         // Marker add
         marker = huaweiMap.addMarker(
@@ -117,11 +129,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         // Camera position settings
         cameraPosition = CameraPosition.builder()
             .target(LatLng(LATITUDE, LONGITUDE))
-            .zoom(ZOOM)
+            .zoom((15.0-distance/5).toFloat())
             .bearing(BEARING)
             .tilt(TILT).build()
         cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         huaweiMap.moveCamera(cameraUpdate)
+    }
+
+    fun getStationDetail(stationId: Int){
+        val bundle = Bundle()
+        bundle.putInt("chargeStationId", stationId)
+        findNavController().navigate(R.id.action_MapFragment_to_DetailFragment, bundle)
     }
 
     companion object {
